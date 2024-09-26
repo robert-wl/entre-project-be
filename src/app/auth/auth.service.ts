@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
@@ -22,10 +26,23 @@ export class AuthService {
     return null;
   }
 
-  async login(user: Omit<User, 'password'>) {
-    const payload = { username: user.email, sub: user.id };
+  async login(email: string, password: string) {
+    console.log('EMAIL', email);
+    const user = await this.usersService.findOne(email);
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    if (user.password !== password) {
+      throw new UnauthorizedException('Invalid Password');
+    }
+
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: await this.jwtService.signAsync({
+        username: user.email,
+        sub: user.id,
+      }),
     };
   }
 }

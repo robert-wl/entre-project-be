@@ -12,22 +12,4 @@ export class UsersService {
       where: { email },
     });
   }
-
-  async test() {
-    return this.prisma.trip.create({
-      data: {
-        name: 'test',
-        owner: {
-          connect: {
-            email: 'alvin'
-          }
-        },
-        members: {
-          connect: {
-            email: 'alvin2'
-          }
-        }
-      }
-    })
-  }
 }
