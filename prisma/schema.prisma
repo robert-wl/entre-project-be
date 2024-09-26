@@ -13,11 +13,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String
-  password  String
-  phoneNo   String
+  id            Int    @id @default(autoincrement())
+  email         String @unique
+  name          String
+  password      String
+  phoneNo       String
+
+  ownedTrips    Trip[] @relation("OwnedTrips")
+  memberOfTrips Trip[]
+}
+
+model Trip {
+  id            Int    @id @default(autoincrement())
+  name          String
+  description   String
+  ownerId       Int
+
+  owner         User   @relation("OwnedTrips", fields: [ownerId], references: [id])
+  members       User[]
 }
