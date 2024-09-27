@@ -19,6 +19,7 @@ model User {
   name          String
   password      String
   phoneNo       String
+  profilePic    Bytes  @db.LongBlob()
 
   ownedTrips    Trip[] @relation("OwnedTrips")
   memberOfTrips Trip[]
@@ -29,7 +30,22 @@ model Trip {
   name          String
   description   String
   ownerId       Int
+  startDate     DateTime
+  endDate       DateTime
 
   owner         User   @relation("OwnedTrips", fields: [ownerId], references: [id])
   members       User[]
+  tripDetails   TripDetail[]
+}
+
+model TripDetail {
+  id            Int    @id @default(autoincrement())
+  tripId        Int
+  date          DateTime
+  location      String
+  description   String
+  price         Float
+  photo         Bytes  @db.LongBlob()
+
+  trip          Trip   @relation(fields: [tripId], references: [id])
 }
