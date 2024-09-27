@@ -1,12 +1,15 @@
 import { IsNotEmpty } from "class-validator";
 
-export class CreateTripDto {
+export class RegisterRequestDTO {
   @IsNotEmpty()
   name: string;
 
   @IsNotEmpty()
-  description: string;
+  email: string;
 
   @IsNotEmpty()
-  ownerId: number;
+  password: string;
+
+  @IsNotEmpty()
+  phoneNumber: string;
 }

@@ -7,6 +7,18 @@ import { User } from "@prisma/client";
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
+  async createUser(name: string, email: string, password: string, phoneNumber: string): Promise<User> {
+    return await this.prisma.user.create({
+      data: {
+        name,
+        email,
+        password,
+        phoneNo: phoneNumber,
+        profilePic: null,
+      },
+    });
+  }
+
   async findId(id: number): Promise<User> {
     const user = await this.prisma.user.findUnique({
       where: { id },

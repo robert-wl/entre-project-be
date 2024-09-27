@@ -41,4 +41,10 @@ export class AuthService {
       user: rest,
     };
   }
+
+  async register(name: string, email: string, password: string, phoneNumber: string) {
+    const result = await this.usersService.createUser(name, email, password, phoneNumber);
+
+    return !!result;
+  }
 }

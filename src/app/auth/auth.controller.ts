@@ -6,6 +6,7 @@ import { ResponseValidationInterceptor } from "../interceptors/response-validati
 import { MeResponseDTO } from "./dto/me-response.dto";
 import { UsersService } from "../users/users.service";
 import { AuthGuard } from "./auth.guard";
+import { RegisterRequestDTO } from "./dto/register-request.dto";
 
 @Controller("auth")
 export class AuthController {
@@ -30,5 +31,10 @@ export class AuthController {
     return {
       user,
     };
+  }
+
+  @Post("register")
+  async register(@Body() dto: RegisterRequestDTO): Promise<boolean> {
+    return this.authService.register(dto.name, dto.email, dto.password, dto.phoneNumber);
   }
 }
