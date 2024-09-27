@@ -22,6 +22,7 @@ export class AuthController {
 
   @Get("me")
   @UseGuards(AuthGuard)
+  @UseInterceptors(new ResponseValidationInterceptor(MeResponseDTO))
   async me(@Request() req): Promise<MeResponseDTO> {
     console.log(req);
     const user = await this.usersService.findId(req.user.id);
