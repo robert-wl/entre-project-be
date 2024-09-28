@@ -26,7 +26,6 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @UseInterceptors(new ResponseValidationInterceptor(MeResponseDTO))
   async me(@Request() req): Promise<MeResponseDTO> {
-    console.log(req);
     const user = await this.usersService.findId(req.user.id);
 
     return {
@@ -41,6 +40,6 @@ export class AuthController {
 
     return {
       result,
-    }
+    };
   }
 }
