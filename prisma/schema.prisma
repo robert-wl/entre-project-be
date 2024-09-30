@@ -19,7 +19,7 @@ model User {
   name          String
   password      String
   phoneNo       String
-  profilePic    Bytes?  @db.LongBlob() 
+  profilePic    Bytes?  @db.LongBlob()
 
   ownedTrips    Trip[] @relation("OwnedTrips")
   memberOfTrips Trip[]

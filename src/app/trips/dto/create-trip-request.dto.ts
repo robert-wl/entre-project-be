@@ -1,6 +1,6 @@
 import { IsNotEmpty } from "class-validator";
 
-export class CreateTripDto {
+export class CreateTripRequestDTO {
   @IsNotEmpty()
   name: string;
 
@@ -8,5 +8,5 @@ export class CreateTripDto {
   description: string;
 
   @IsNotEmpty()
-  ownerId: number;
+  numberOfTravelers: number;
 }

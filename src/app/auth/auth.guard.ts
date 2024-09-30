@@ -14,10 +14,12 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException("Token is missing");
     }
     try {
+      console.log("GOT TEOKEN", token);
       request["user"] = await this.jwtService.verifyAsync(token, {
         secret: Constants.Security.JWT_SECRET_KEY,
       });
-    } catch {
+    } catch (e) {
+      console.log(e);
       throw new UnauthorizedException("Token is invalid or it's signature is expired");
     }
     return true;

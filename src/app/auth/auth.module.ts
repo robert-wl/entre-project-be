@@ -4,17 +4,11 @@ import { AuthService } from "./auth.service";
 import { AuthStrategy } from "./auth.strategy";
 import { UsersModule } from "../users/users.module";
 import { JwtModule } from "@nestjs/jwt";
-import Constants from "../../constants";
 import { AuthGuard } from "./auth.guard";
+import { jwtConfig } from "../../config/jwt.config";
 
 @Module({
-  imports: [
-    UsersModule,
-    JwtModule.register({
-      secret: Constants.Security.JWT_SECRET_KEY,
-      signOptions: { expiresIn: "60s" },
-    }),
-  ],
+  imports: [UsersModule, JwtModule.register(jwtConfig)],
   controllers: [AuthController],
   providers: [AuthService, AuthStrategy, AuthGuard],
   exports: [],
