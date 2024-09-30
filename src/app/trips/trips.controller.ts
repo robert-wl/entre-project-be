@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Post, Request, UseGuards, UseInterceptors } from "@nestjs/common";
 import { AuthGuard } from "../auth/auth.guard";
 import { ResponseValidationInterceptor } from "../interceptors/response-validation.interceptor";
 import { CreateTripRequestDTO } from "./dto/create-trip-request.dto";
@@ -12,8 +12,9 @@ export class TripsController {
   @Post("/")
   @UseGuards(AuthGuard)
   @UseInterceptors(new ResponseValidationInterceptor(CreateTripResponseDTO))
-  async createTrip(@Body() dto: CreateTripRequestDTO) {
-    const result = await this.tripsService.createTrip(dto.name, dto.description, dto.numberOfTravelers);
+  async createTrip(@Request() req, @Body() dto: CreateTripRequestDTO) {
+    const userId = req.user.id;
+    const result = await this.tripsService.createTrip(dto.name, dto.description, dto.numberOfTravelers, userId);
 
     return {
       result,

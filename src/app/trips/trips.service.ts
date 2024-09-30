@@ -6,7 +6,7 @@ import { PrismaService } from "src/prisma/prisma.service";
 export class TripsService {
   constructor(private prisma: PrismaService) {}
 
-  async createTrip(name: string, description: string, ownerId: number): Promise<Trip> {
+  async createTrip(name: string, description: string, numberOfTravelers: number, ownerId: number): Promise<Trip> {
     return await this.prisma.trip.create({
       data: {
         name,
