@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Request, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Get, Post, UseGuards, UseInterceptors } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { LoginRequestDTO } from "./dto/login-request.dto";
 import { LoginResponseDTO } from "./dto/login-response.dto";
@@ -8,6 +8,8 @@ import { UsersService } from "../users/users.service";
 import { AuthGuard } from "./auth.guard";
 import { RegisterRequestDTO } from "./dto/register-request.dto";
 import { RegisterResponseDTO } from "./dto/register-response.dto";
+import { Sender } from "../../decorators/sender.decorator";
+import { User } from "@prisma/client";
 
 @Controller("auth")
 export class AuthController {
@@ -25,8 +27,8 @@ export class AuthController {
   @Get("me")
   @UseGuards(AuthGuard)
   @UseInterceptors(new ResponseValidationInterceptor(MeResponseDTO))
-  async me(@Request() req): Promise<MeResponseDTO> {
-    const user = await this.usersService.findId(req.user.id);
+  async me(@Sender() sender: User): Promise<MeResponseDTO> {
+    const user = await this.usersService.findId(sender.id);
 
     return {
       user,

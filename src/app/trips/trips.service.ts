@@ -1,13 +1,13 @@
 import { Injectable } from "@nestjs/common";
-import { Trip } from "@prisma/client";
 import { PrismaService } from "src/prisma/prisma.service";
+import { Trip } from "@prisma/client";
 
 @Injectable()
 export class TripsService {
   constructor(private prisma: PrismaService) {}
 
   async createTrip(name: string, description: string, ownerId: number): Promise<Trip> {
-    return await this.prisma.trip.create({
+    return this.prisma.trip.create({
       data: {
         name,
         description,
