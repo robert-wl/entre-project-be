@@ -23,8 +23,8 @@ model User {
 
   ownedTrips    Trip[]       @relation("OwnedTrips")
   memberOfTrips Trip[]
-  Bill          Bill[]
-  BillDetail    BillDetail[]
+  bill          Bill[]
+  billDetail    BillDetail[]
 }
 
 model Trip {
@@ -36,8 +36,8 @@ model Trip {
   owner        User          @relation("OwnedTrips", fields: [ownerId], references: [id])
   members      User[]
   destinations Destination[]
-  Bills        Bill[]
-  TripDetail   TripDetail[]
+  bills        Bill[]
+  tripDetail   TripDetail[]
 }
 
 model Destination {
@@ -59,7 +59,7 @@ model Bill {
 
   billOwner  User         @relation(fields: [billOwnerId], references: [id])
   trip       Trip         @relation(fields: [tripId], references: [id])
-  BillDetail BillDetail[]
+  billDetail BillDetail[]
 }
 
 model BillDetail {
