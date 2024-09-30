@@ -1,6 +1,6 @@
 import { IsNotEmpty } from "class-validator";
 
-export class CreateTripRequestDTO {
+export class CreateTripRequestDto {
   @IsNotEmpty()
   name: string;
 

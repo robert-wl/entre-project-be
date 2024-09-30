@@ -12,8 +12,6 @@ export class TripsService {
         name,
         description,
         ownerId,
-        endDate: new Date(),
-        startDate: new Date(),
       },
     });
   }

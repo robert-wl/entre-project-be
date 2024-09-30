@@ -30,8 +30,6 @@ model Trip {
   name          String
   description   String
   ownerId       Int
-  startDate     DateTime
-  endDate       DateTime
 
   owner         User   @relation("OwnedTrips", fields: [ownerId], references: [id])
   members       User[]
