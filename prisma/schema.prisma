@@ -14,36 +14,74 @@ datasource db {
 }
 
 model User {
-  id            Int    @id @default(autoincrement())
-  email         String @unique
-  name          String
-  password      String
-  phoneNo       String
-  profilePic    Bytes?  @db.LongBlob()
+  id         Int    @id @default(autoincrement())
+  email      String @unique
+  name       String
+  password   String
+  phoneNo    String
+  profilePic Bytes? @db.LongBlob()
 
-  ownedTrips    Trip[] @relation("OwnedTrips")
+  ownedTrips    Trip[]       @relation("OwnedTrips")
   memberOfTrips Trip[]
+  Bill          Bill[]
+  BillDetail    BillDetail[]
 }
 
 model Trip {
-  id            Int    @id @default(autoincrement())
-  name          String
-  description   String
-  ownerId       Int
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String
+  ownerId     Int
 
-  owner         User   @relation("OwnedTrips", fields: [ownerId], references: [id])
-  members       User[]
-  tripDetails   TripDetail[]
+  owner        User          @relation("OwnedTrips", fields: [ownerId], references: [id])
+  members      User[]
+  destinations Destination[]
+  Bills        Bill[]
+  TripDetail   TripDetail[]
+}
+
+model Destination {
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String
+  photo       Bytes  @db.LongBlob()
+  tripId      Int
+
+  trip Trip @relation(fields: [tripId], references: [id])
+}
+
+model Bill {
+  id          Int      @id @default(autoincrement())
+  tripId      Int
+  date        DateTime
+  description String
+  billOwnerId Int
+
+  billOwner  User         @relation(fields: [billOwnerId], references: [id])
+  trip       Trip         @relation(fields: [tripId], references: [id])
+  BillDetail BillDetail[]
+}
+
+model BillDetail {
+  id         Int   @id @default(autoincrement())
+  billId     Int
+  userId     Int
+  price      Float
+  quantity   Int
+  totalPrice Float
+
+  user User @relation(fields: [userId], references: [id])
+  bill Bill @relation(fields: [billId], references: [id])
 }
 
 model TripDetail {
-  id            Int    @id @default(autoincrement())
-  tripId        Int
-  date          DateTime
-  location      String
-  description   String
-  price         Float
-  photo         Bytes  @db.LongBlob()
+  id          Int      @id @default(autoincrement())
+  tripId      Int
+  date        DateTime
+  location    String
+  description String
+  price       Float
+  photo       Bytes    @db.LongBlob()
 
-  trip          Trip   @relation(fields: [tripId], references: [id])
+  trip Trip @relation(fields: [tripId], references: [id])
 }
