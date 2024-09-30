@@ -30,3 +30,8 @@ services:
 networks:
   splanngo:
     driver: bridge
+
+
+
+volumes:
+  mysql-data:
