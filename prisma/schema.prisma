@@ -57,18 +57,17 @@ model Bill {
   description String
   billOwnerId Int
 
-  billOwner  User         @relation(fields: [billOwnerId], references: [id])
-  trip       Trip         @relation(fields: [tripId], references: [id])
-  billDetail BillDetail[]
+  billOwner   User         @relation(fields: [billOwnerId], references: [id])
+  trip        Trip         @relation(fields: [tripId], references: [id])
+  billDetails BillDetail[]
 }
 
 model BillDetail {
-  id         Int   @id @default(autoincrement())
-  billId     Int
-  userId     Int
-  price      Float
-  quantity   Int
-  totalPrice Float
+  id       Int   @id @default(autoincrement())
+  billId   Int
+  userId   Int
+  price    Float
+  quantity Int
 
   user User @relation(fields: [userId], references: [id])
   bill Bill @relation(fields: [billId], references: [id])

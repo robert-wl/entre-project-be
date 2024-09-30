@@ -29,12 +29,12 @@ export class TripsService {
   }
 
   async getMyTrips(ownerId: number): Promise<Trip[]> {
-    return await this.prisma.trip.findMany({
+    return this.prisma.trip.findMany({
       where: {
         OR: [{ ownerId: ownerId }, { members: { some: { id: ownerId } } }],
       },
       include: {
-        members: {select: {id: true}},
+        members: { select: { id: true } },
       },
     });
   }
@@ -46,8 +46,8 @@ export class TripsService {
       },
       include: {
         members: true,
-        tripDetails: true,
-        owner: {select: {id: true}}
+        tripDetail: true,
+        owner: { select: { id: true } },
       },
     });
   }

@@ -10,5 +10,6 @@ import { jwtConfig } from "../../config/jwt.config";
   imports: [AuthModule, JwtModule.register(jwtConfig)],
   controllers: [TripsController],
   providers: [TripsService, AuthGuard],
+  exports: [],
 })
 export class TripsModule {}
