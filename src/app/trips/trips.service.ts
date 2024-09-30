@@ -4,7 +4,7 @@ import { Trip } from "@prisma/client";
 
 @Injectable()
 export class TripsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async createTrip(name: string, description: string, ownerId: number): Promise<Trip> {
     return this.prisma.trip.create({
@@ -12,6 +12,11 @@ export class TripsService {
         name,
         description,
         ownerId,
+        members: {
+          connect: {
+            id: ownerId,
+          }
+        }
       },
     });
   }
@@ -34,7 +39,8 @@ export class TripsService {
         OR: [{ ownerId: ownerId }, { members: { some: { id: ownerId } } }],
       },
       include: {
-        members: { select: { id: true } },
+        members: { select: { id: true, name: true } },
+        owner: { select: { id: true, name: true } },
       },
     });
   }
@@ -45,9 +51,9 @@ export class TripsService {
         id: tripId,
       },
       include: {
-        members: true,
+        members: { select: { id: true, name: true } },
+        owner: { select: { id: true, name: true } },
         tripDetail: true,
-        owner: { select: { id: true } },
       },
     });
   }
