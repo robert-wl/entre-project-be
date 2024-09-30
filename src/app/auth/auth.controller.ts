@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post, UseGuards, UseInterceptors } from "@nestjs
 import { AuthService } from "./auth.service";
 import { LoginRequestDTO } from "./dto/login-request.dto";
 import { LoginResponseDTO } from "./dto/login-response.dto";
-import { ResponseValidationInterceptor } from "../interceptors/response-validation.interceptor";
+import { ResponseValidationInterceptor } from "../../interceptors/response-validation.interceptor";
 import { MeResponseDTO } from "./dto/me-response.dto";
 import { UsersService } from "../users/users.service";
 import { AuthGuard } from "./auth.guard";
