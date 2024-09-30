@@ -6,7 +6,4 @@ export class CreateTripRequestDto {
 
   @IsNotEmpty()
   description: string;
-
-  @IsNotEmpty()
-  numberOfTravelers: number;
 }
