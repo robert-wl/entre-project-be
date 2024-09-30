@@ -24,6 +24,7 @@ export class BillsService {
         userId,
         price,
         quantity,
+        paid: false,
       },
     });
   }
@@ -40,6 +41,17 @@ export class BillsService {
     return this.prisma.billDetail.findMany({
       where: {
         billId,
+      },
+    });
+  }
+
+  async confirmBillPayment(billDetailId: number) {
+    return this.prisma.billDetail.update({
+      where: {
+        id: billDetailId,
+      },
+      data: {
+        paid: true,
       },
     });
   }

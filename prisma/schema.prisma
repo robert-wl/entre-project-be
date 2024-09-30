@@ -63,11 +63,12 @@ model Bill {
 }
 
 model BillDetail {
-  id       Int   @id @default(autoincrement())
+  id       Int     @id @default(autoincrement())
   billId   Int
   userId   Int
   price    Float
   quantity Int
+  paid     Boolean
 
   user User @relation(fields: [userId], references: [id])
   bill Bill @relation(fields: [billId], references: [id])

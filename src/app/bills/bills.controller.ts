@@ -8,6 +8,8 @@ import { CreateBillRequestDTO } from "./dto/create-bill-request.dto";
 import { CreateBillResponseDTO } from "./dto/create-bill-response.dto";
 import { GetBillsFromTripResponseDTO } from "./dto/get-bills-from-trip-response.dto";
 import { GetBillDetailResponseDTO } from "./dto/get-bill-detail-response.dto";
+import { ConfirmBillResponseDTO } from "./dto/confirm-bill-response.dto";
+import { ConfirmBillRequestDTO } from "./dto/confirm-bill-request.dto";
 
 @Controller("bills")
 export class BillsController {
@@ -46,6 +48,17 @@ export class BillsController {
 
     return {
       result,
+    };
+  }
+
+  @Post("/confirm")
+  @UseGuards(AuthGuard)
+  @UseInterceptors(new ResponseValidationInterceptor(ConfirmBillResponseDTO))
+  async confirmBillPayment(@Body() dto: ConfirmBillRequestDTO) {
+    await this.billsService.confirmBillPayment(dto.billDetailId);
+
+    return {
+      result: true,
     };
   }
 }
