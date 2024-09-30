@@ -34,22 +34,25 @@ export class TripsService {
         OR: [{ ownerId: ownerId }, { members: { some: { id: ownerId } } }],
       },
       include: {
-        members: true,
+        members: {select: {id: true}},
       },
     });
   }
 
-  async getOwnerTrips(ownerId: number): Promise<Trip[]> {
-    return this.prisma.trip.findMany({
+  async getTripWithDetails(tripId: number): Promise<Trip> {
+    return this.prisma.trip.findUnique({
       where: {
-        ownerId: {
-          equals: ownerId,
-        },
+        id: tripId,
+      },
+      include: {
+        members: true,
+        tripDetails: true,
+        owner: {select: {id: true}}
       },
     });
   }
 
-  async addTripMember(tripId: number, userId: number): Promise<Trip> {
+  async inviteTripMemberByEmail(tripId: number, email: string): Promise<Trip> {
     return this.prisma.trip.update({
       where: {
         id: tripId,
@@ -57,7 +60,7 @@ export class TripsService {
       data: {
         members: {
           connect: {
-            id: userId,
+            email: email,
           },
         },
       },
