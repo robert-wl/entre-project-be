@@ -19,6 +19,7 @@ services:
       - MYSQL_USER=${DATABASE_USER}
       - MYSQL_PASSWORD=${DATABASE_PASSWORD}
       - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD}
+      - MYSQL_TCP_PORT=${DATABASE_PORT}
     restart: on-failure
     ports:
       - "3306:3306"
