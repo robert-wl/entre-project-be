@@ -1,0 +1,32 @@
+services:
+  backend:
+    image: yahkerobertkertasnya/splanngo:latest
+    tty: true
+    build: .
+    ports:
+      - "3900:3900"
+    restart: on-failure
+    depends_on:
+      - mysql
+    networks:
+      - splanngo
+
+  mysql:
+    image: mysql:5.7
+    container_name: splanngo-mysql
+    environment:
+      - MYSQL_DATABASE=${DATABASE_NAME}
+      - MYSQL_USER=${DATABASE_USER}
+      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD}
+    restart: on-failure
+    ports:
+      - "3306:3306"
+    networks:
+      - splanngo
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+networks:
+  splanngo:
+    driver: bridge
