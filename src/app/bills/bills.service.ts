@@ -35,6 +35,10 @@ export class BillsService {
       where: {
         tripId,
       },
+      include: {
+        billDetails: true,
+        billOwner: true,
+      },
     });
   }
 
