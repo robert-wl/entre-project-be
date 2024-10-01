@@ -53,6 +53,5 @@ export class TripsController {
     await Promise.all(
       emails.map((email) => this.tripsService.inviteTripMemberByEmail(dto.tripId, email))
     );
-
   }
 }

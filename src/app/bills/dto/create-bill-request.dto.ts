@@ -21,5 +21,8 @@ class CreateBillDetailDTO {
   price: number;
 
   @IsNotEmpty()
+  itemName: string;
+
+  @IsNotEmpty()
   quantity: number;
 }

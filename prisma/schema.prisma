@@ -66,6 +66,7 @@ model BillDetail {
   id       Int     @id @default(autoincrement())
   billId   Int
   userId   Int
+  itemName String
   price    Float
   quantity Int
   paid     Boolean

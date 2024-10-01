@@ -22,7 +22,9 @@ export class BillsController {
     const result = await this.billsService.createBill(dto.description, dto.tripId, sender.id);
 
     if (dto.billDetail)
-      await Promise.all(dto.billDetail.map((detail) => this.billsService.createBillDetail(result.id, detail.userId, detail.price, detail.quantity)));
+      await Promise.all(
+        dto.billDetail.map((detail) => this.billsService.createBillDetail(result.id, detail.userId, detail.price, detail.quantity, detail.itemName)),
+      );
 
     return {
       result,

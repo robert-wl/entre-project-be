@@ -17,13 +17,14 @@ export class BillsService {
     });
   }
 
-  async createBillDetail(billId: number, userId: number, price: number, quantity: number): Promise<BillDetail> {
+  async createBillDetail(billId: number, userId: number, price: number, quantity: number, itemName: string): Promise<BillDetail> {
     return this.prisma.billDetail.create({
       data: {
         billId,
         userId,
         price,
         quantity,
+        itemName,
         paid: false,
       },
     });
