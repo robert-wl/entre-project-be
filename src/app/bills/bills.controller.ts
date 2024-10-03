@@ -18,7 +18,7 @@ export class BillsController {
   @Post("/createBill")
   @UseGuards(AuthGuard)
   @UseInterceptors(new ResponseValidationInterceptor(CreateBillResponseDTO))
-  async createTrip(@Sender() sender: User, @Body() dto: CreateBillRequestDTO) {
+  async createBill(@Sender() sender: User, @Body() dto: CreateBillRequestDTO) {
     const result = await this.billsService.createBill(dto.description, dto.tripId, sender.id);
 
     if (dto.billDetail)
@@ -34,11 +34,13 @@ export class BillsController {
   @Get("/getBills/:tripId")
   @UseGuards(AuthGuard)
   @UseInterceptors(new ResponseValidationInterceptor(GetBillsFromTripResponseDTO))
-  async getBillsFromTrip(@Param("tripId") tripId: string) {
-    const result = await this.billsService.getBillsFromTrip(Number.parseInt(tripId));
+  async getBillsFromTrip(@Sender() sender: User, @Param("tripId") tripId: string) {
+    const bills = await this.billsService.getBillsFromTrip(+tripId);
+
+    const details = await this.billsService.getBillDetailWithUser(+tripId, sender.id);
 
     return {
-      result,
+      result: bills,
     };
   }
 
