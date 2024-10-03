@@ -1,11 +1,13 @@
-import { IsNotEmpty, ValidateNested } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
 
 export class CreateBillRequestDTO {
   @IsNotEmpty()
+  @IsNumber()
   tripId: number;
 
   @IsNotEmpty()
+  @IsString()
   description: string;
 
   @ValidateNested({ each: true })
@@ -15,11 +17,14 @@ export class CreateBillRequestDTO {
 
 class CreateBillDetailDTO {
   @IsNotEmpty()
+  @IsNumber()
   userId: number;
 
   @IsNotEmpty()
+  @IsNumber()
   price: number;
 
   @IsNotEmpty()
+  @IsNumber()
   quantity: number;
 }
