@@ -27,7 +27,8 @@ export class BillsController {
 
     await Promise.all(
       dto.billDetail.map(async (detail) => {
-        await this.billsService.createBillDetail(result.id, detail.userId);
+        const totalPrice = detail.billItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+        await this.billsService.createBillDetail(result.id, detail.userId, totalPrice);
 
         if (!detail.billItems) return;
 
@@ -45,10 +46,8 @@ export class BillsController {
   @Get("/getBills/:tripId")
   @UseGuards(AuthGuard)
   @UseInterceptors(new ResponseValidationInterceptor(GetBillsFromTripResponseDTO))
-  async getBillsFromTrip(@Sender() sender: User, @Param("tripId") tripId: string) {
+  async getBillsFromTrip(@Param("tripId") tripId: string) {
     const bills = await this.billsService.getBillsFromTrip(+tripId);
-
-    //const details = await this.billsService.getBillDetailWithUser(+tripId, sender.id);
 
     return {
       result: bills,
@@ -58,7 +57,7 @@ export class BillsController {
   @Get("/getBillDetail/:billId")
   @UseGuards(AuthGuard)
   @UseInterceptors(new ResponseValidationInterceptor(GetBillDetailResponseDTO))
-  async getBillDetail(@Param("billId") billId: string) {
+  async getCompleteBill(@Param("billId") billId: string) {
     const result = await this.billsService.getBillDetail(Number.parseInt(billId));
 
     return {

@@ -67,6 +67,7 @@ model BillDetail {
   billId   Int
   userId   Int
   paid     Boolean
+  totalPrice Float
 
   user User @relation(fields: [userId], references: [id])
   bill Bill @relation(fields: [billId], references: [id])
