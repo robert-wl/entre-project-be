@@ -54,7 +54,7 @@ model Bill {
   id          Int      @id @default(autoincrement())
   tripId      Int
   date        DateTime
-  description String
+  name String
   billOwnerId Int
 
   billOwner   User         @relation(fields: [billOwnerId], references: [id])
@@ -66,13 +66,21 @@ model BillDetail {
   id       Int     @id @default(autoincrement())
   billId   Int
   userId   Int
-  itemName String
-  price    Float
-  quantity Int
   paid     Boolean
 
   user User @relation(fields: [userId], references: [id])
   bill Bill @relation(fields: [billId], references: [id])
+  billItems BillItem[]
+}
+
+model BillItem {
+  id       Int     @id @default(autoincrement())
+  billDetailId Int
+  itemName String
+  price    Float
+  quantity Int
+
+  billDetail BillDetail @relation(fields: [billDetailId], references: [id])
 }
 
 model TripDetail {
