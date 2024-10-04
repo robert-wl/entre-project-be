@@ -48,7 +48,7 @@ export class BillsController {
   async getBillsFromTrip(@Sender() sender: User, @Param("tripId") tripId: string) {
     const bills = await this.billsService.getBillsFromTrip(+tripId);
 
-    const details = await this.billsService.getBillDetailWithUser(+tripId, sender.id);
+    //const details = await this.billsService.getBillDetailWithUser(+tripId, sender.id);
 
     return {
       result: bills,
