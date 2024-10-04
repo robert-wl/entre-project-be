@@ -6,7 +6,7 @@ export class CreateBillRequestDTO {
   tripId: number;
 
   @IsNotEmpty()
-  description: string;
+  name: string;
 
   @ValidateNested({ each: true })
   @Type(() => CreateBillDetailDTO)
@@ -17,6 +17,12 @@ class CreateBillDetailDTO {
   @IsNotEmpty()
   userId: number;
 
+  @ValidateNested({ each: true })
+  @Type(() => CreateBillItemDTO)
+  billItems: CreateBillItemDTO[];
+}
+
+class CreateBillItemDTO {
   @IsNotEmpty()
   price: number;
 

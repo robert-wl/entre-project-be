@@ -1,15 +1,15 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../../prisma/prisma.service";
-import { Bill, BillDetail } from "@prisma/client";
+import { Bill, BillDetail, BillItem } from "@prisma/client";
 
 @Injectable()
 export class BillsService {
   constructor(private prisma: PrismaService) {}
 
-  async createBill(description: string, tripId: number, ownerId: number): Promise<Bill> {
+  async createBill(name: string, tripId: number, ownerId: number): Promise<Bill> {
     return this.prisma.bill.create({
       data: {
-        description,
+        name,
         tripId,
         billOwnerId: ownerId,
         date: new Date(),
@@ -17,15 +17,23 @@ export class BillsService {
     });
   }
 
-  async createBillDetail(billId: number, userId: number, price: number, quantity: number, itemName: string): Promise<BillDetail> {
+  async createBillDetail(billId: number, userId: number): Promise<BillDetail> {
     return this.prisma.billDetail.create({
       data: {
         billId,
         userId,
+        paid: false,
+      },
+    });
+  }
+
+  async createBillItem(billDetailId: number, price: number, quantity: number, itemName: string): Promise<BillItem> {
+    return this.prisma.billItem.create({
+      data: {
+        billDetailId,
         price,
         quantity,
         itemName,
-        paid: false,
       },
     });
   }

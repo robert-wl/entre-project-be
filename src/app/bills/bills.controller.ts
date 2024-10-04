@@ -19,16 +19,27 @@ export class BillsController {
   @UseGuards(AuthGuard)
   @UseInterceptors(new ResponseValidationInterceptor(CreateBillResponseDTO))
   async createTrip(@Sender() sender: User, @Body() dto: CreateBillRequestDTO) {
-    const result = await this.billsService.createBill(dto.description, dto.tripId, sender.id);
+    const result = await this.billsService.createBill(dto.name, dto.tripId, sender.id);
 
-    if (dto.billDetail)
-      await Promise.all(
-        dto.billDetail.map((detail) => this.billsService.createBillDetail(result.id, detail.userId, detail.price, detail.quantity, detail.itemName)),
-      );
+    if (!dto.billDetail) {
+      return { result };
+    }
 
-    return {
-      result,
-    };
+    await Promise.all(
+      dto.billDetail.map(async (detail) => {
+        await this.billsService.createBillDetail(result.id, detail.userId);
+
+        if (!detail.billItems) return;
+
+        await Promise.all(
+          detail.billItems.map(async (item) => {
+            await this.billsService.createBillItem(result.id, item.price, item.quantity, item.itemName);
+          }),
+        );
+      }),
+    );
+
+    return { result };
   }
 
   @Get("/getBills/:tripId")
