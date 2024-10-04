@@ -7,7 +7,7 @@ import { BillsService } from "./bills.service";
 import { CreateBillRequestDTO } from "./dto/create-bill-request.dto";
 import { CreateBillResponseDTO } from "./dto/create-bill-response.dto";
 import { GetBillsFromTripResponseDTO } from "./dto/get-bills-from-trip-response.dto";
-import { GetBillDetailResponseDTO } from "./dto/get-bill-detail-response.dto";
+import { GetCompleteBillResponseDTO } from "./dto/get-complete-bill-response.dto";
 import { ConfirmBillResponseDTO } from "./dto/confirm-bill-response.dto";
 import { ConfirmBillRequestDTO } from "./dto/confirm-bill-request.dto";
 
@@ -56,9 +56,9 @@ export class BillsController {
 
   @Get("/:billId")
   @UseGuards(AuthGuard)
-  @UseInterceptors(new ResponseValidationInterceptor(GetBillDetailResponseDTO))
+  @UseInterceptors(new ResponseValidationInterceptor(GetCompleteBillResponseDTO))
   async getCompleteBill(@Param("billId") billId: string) {
-    const result = await this.billsService.getBillDetail(Number.parseInt(billId));
+    const result = await this.billsService.getCompleteBill(Number.parseInt(billId));
 
     return {
       result,

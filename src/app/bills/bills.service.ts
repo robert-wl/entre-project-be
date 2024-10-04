@@ -51,10 +51,18 @@ export class BillsService {
     });
   }
 
-  async getBillDetail(billId: number): Promise<BillDetail[]> {
-    return this.prisma.billDetail.findMany({
+  async getCompleteBill(billId: number): Promise<Bill> {
+    return this.prisma.bill.findUnique({
       where: {
-        billId,
+        id: billId,
+      },
+      include: {
+        billDetails: {
+          include: {
+            billItems: true,
+          },
+        },
+        billOwner: true,
       },
     });
   }
