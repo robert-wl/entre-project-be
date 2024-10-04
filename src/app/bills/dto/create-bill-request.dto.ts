@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString, ValidateNested } from "class-validator";
+import { ArrayMinSize, IsNotEmpty, IsNumber, IsString, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
 
 export class CreateBillRequestDTO {
@@ -12,6 +12,7 @@ export class CreateBillRequestDTO {
 
   @ValidateNested({ each: true })
   @Type(() => CreateBillDetailDTO)
+  @ArrayMinSize(1)
   billDetail: CreateBillDetailDTO[];
 }
 
@@ -22,6 +23,7 @@ class CreateBillDetailDTO {
 
   @ValidateNested({ each: true })
   @Type(() => CreateBillItemDTO)
+  @ArrayMinSize(1)
   billItems: CreateBillItemDTO[];
 }
 
