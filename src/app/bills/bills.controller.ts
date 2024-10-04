@@ -15,7 +15,7 @@ import { ConfirmBillRequestDTO } from "./dto/confirm-bill-request.dto";
 export class BillsController {
   constructor(private billsService: BillsService) {}
 
-  @Post("/createBill")
+  @Post("/")
   @UseGuards(AuthGuard)
   @UseInterceptors(new ResponseValidationInterceptor(CreateBillResponseDTO))
   async createBill(@Sender() sender: User, @Body() dto: CreateBillRequestDTO) {
@@ -43,7 +43,7 @@ export class BillsController {
     return { result };
   }
 
-  @Get("/getBills/:tripId")
+  @Get("/trip/:tripId")
   @UseGuards(AuthGuard)
   @UseInterceptors(new ResponseValidationInterceptor(GetBillsFromTripResponseDTO))
   async getBillsFromTrip(@Param("tripId") tripId: string) {
@@ -54,7 +54,7 @@ export class BillsController {
     };
   }
 
-  @Get("/getBillDetail/:billId")
+  @Get("/:billId")
   @UseGuards(AuthGuard)
   @UseInterceptors(new ResponseValidationInterceptor(GetBillDetailResponseDTO))
   async getCompleteBill(@Param("billId") billId: string) {
