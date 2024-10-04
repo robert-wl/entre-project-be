@@ -60,6 +60,7 @@ export class BillsService {
         billDetails: {
           include: {
             billItems: true,
+            user: true,
           },
         },
         billOwner: true,
