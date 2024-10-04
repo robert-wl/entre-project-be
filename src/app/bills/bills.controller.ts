@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Put, UseGuards, UseInterceptors } from "@nestjs/common";
 import { AuthGuard } from "../auth/auth.guard";
 import { ResponseValidationInterceptor } from "../../interceptors/response-validation.interceptor";
 import { Sender } from "../../decorators/sender.decorator";
@@ -65,11 +65,11 @@ export class BillsController {
     };
   }
 
-  @Post("/confirm")
+  @Put("/confirm/:billDetailId")
   @UseGuards(AuthGuard)
   @UseInterceptors(new ResponseValidationInterceptor(ConfirmBillResponseDTO))
-  async confirmBillPayment(@Body() dto: ConfirmBillRequestDTO) {
-    await this.billsService.confirmBillPayment(dto.billDetailId);
+  async confirmBillPayment(@Param("billDetailId") billDetailId: string) {
+    await this.billsService.confirmBillPayment(+billDetailId);
 
     return {
       result: true,
