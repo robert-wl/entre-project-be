@@ -28,7 +28,7 @@ export class TripsController {
   @UseGuards(AuthGuard)
   @UseInterceptors(new ResponseValidationInterceptor(GetMyTipsResponseDTO))
   async getMyTrips(@Sender() sender: User) {
-    const result = await this.tripsService.getMyTrips(sender.id);
+    const result = await this.tripsService.getMyTrips(sender.id);    
 
     return {
       result,
