@@ -8,5 +8,8 @@ export class CreateDestinationRequestDto {
   notes: string;
 
   @IsNotEmpty()
-  image: File;
+  image: string;
+
+  @IsNotEmpty()
+  tripId: number;
 }
