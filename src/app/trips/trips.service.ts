@@ -4,7 +4,7 @@ import { Trip } from "@prisma/client";
 
 @Injectable()
 export class TripsService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   async createTrip(name: string, description: string, ownerId: number): Promise<Trip> {
     return this.prisma.trip.create({
@@ -15,8 +15,8 @@ export class TripsService {
         members: {
           connect: {
             id: ownerId,
-          }
-        }
+          },
+        },
       },
     });
   }

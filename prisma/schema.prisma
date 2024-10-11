@@ -19,7 +19,7 @@ model User {
   name       String
   password   String
   phoneNo    String
-  profilePic Bytes? @db.LongBlob()
+  profilePic String? @db.LongText
 
   ownedTrips    Trip[]       @relation("OwnedTrips")
   memberOfTrips Trip[]
@@ -42,9 +42,9 @@ model Trip {
 
 model Destination {
   id          Int    @id @default(autoincrement())
-  name        String
-  description String
-  photo       Bytes  @db.LongBlob()
+  destination        String
+  notes String
+  image       String @db.LongText
   tripId      Int
 
   trip Trip @relation(fields: [tripId], references: [id])

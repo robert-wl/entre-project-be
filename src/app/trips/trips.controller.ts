@@ -28,7 +28,7 @@ export class TripsController {
   @UseGuards(AuthGuard)
   @UseInterceptors(new ResponseValidationInterceptor(GetMyTipsResponseDTO))
   async getMyTrips(@Sender() sender: User) {
-    const result = await this.tripsService.getMyTrips(sender.id);    
+    const result = await this.tripsService.getMyTrips(sender.id);
 
     return {
       result,
@@ -37,8 +37,8 @@ export class TripsController {
 
   @Get("/getTripWithDetails/:tripId")
   @UseGuards(AuthGuard)
-  async getTripWithDetails(@Sender() sender: User, @Param('tripId') tripId: string) {
-    const result = await this.tripsService.getTripWithDetails(Number.parseInt(tripId)); 
+  async getTripWithDetails(@Sender() sender: User, @Param("tripId") tripId: string) {
+    const result = await this.tripsService.getTripWithDetails(Number.parseInt(tripId));
 
     return {
       result,
@@ -50,8 +50,6 @@ export class TripsController {
   async inviteTripMember(@Body() dto: InviteTripMemberRequestDto) {
     const emails = dto.emails.split(",").map((email) => email.trim());
 
-    await Promise.all(
-      emails.map((email) => this.tripsService.inviteTripMemberByEmail(dto.tripId, email))
-    );
+    await Promise.all(emails.map((email) => this.tripsService.inviteTripMemberByEmail(dto.tripId, email)));
   }
 }
