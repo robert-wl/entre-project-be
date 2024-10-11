@@ -14,17 +14,19 @@ datasource db {
 }
 
 model User {
-  id         Int    @id @default(autoincrement())
-  email      String @unique
+  id         Int     @id @default(autoincrement())
+  email      String  @unique
   name       String
   password   String
   phoneNo    String
   profilePic String? @db.LongText
 
-  ownedTrips    Trip[]       @relation("OwnedTrips")
+  ownedTrips    Trip[]        @relation("OwnedTrips")
   memberOfTrips Trip[]
   bill          Bill[]
   billDetail    BillDetail[]
+  destination   Destination[]
+  itinerary     Itinerary[]
 }
 
 model Trip {
@@ -41,20 +43,22 @@ model Trip {
 }
 
 model Destination {
-  id          Int    @id @default(autoincrement())
+  id                 Int    @id @default(autoincrement())
   destination        String
-  notes String
-  image       String @db.LongText
-  tripId      Int
+  notes              String
+  image              String @db.LongText
+  tripId             Int
+  destinationOwnerId Int
 
-  trip Trip @relation(fields: [tripId], references: [id])
+  destinationOwner User @relation(fields: [destinationOwnerId], references: [id])
+  trip             Trip @relation(fields: [tripId], references: [id])
 }
 
 model Bill {
   id          Int      @id @default(autoincrement())
   tripId      Int
   date        DateTime
-  name String
+  name        String
   billOwnerId Int
 
   billOwner   User         @relation(fields: [billOwnerId], references: [id])
@@ -63,23 +67,23 @@ model Bill {
 }
 
 model BillDetail {
-  id       Int     @id @default(autoincrement())
-  billId   Int
-  userId   Int
-  paid     Boolean
+  id         Int     @id @default(autoincrement())
+  billId     Int
+  userId     Int
+  paid       Boolean
   totalPrice Float
 
-  user User @relation(fields: [userId], references: [id])
-  bill Bill @relation(fields: [billId], references: [id])
+  user      User       @relation(fields: [userId], references: [id])
+  bill      Bill       @relation(fields: [billId], references: [id])
   billItems BillItem[]
 }
 
 model BillItem {
-  id       Int     @id @default(autoincrement())
+  id           Int    @id @default(autoincrement())
   billDetailId Int
-  itemName String
-  price    Float
-  quantity Int
+  itemName     String
+  price        Float
+  quantity     Int
 
   billDetail BillDetail @relation(fields: [billDetailId], references: [id])
 }
@@ -94,4 +98,34 @@ model TripDetail {
   photo       Bytes    @db.LongBlob()
 
   trip Trip @relation(fields: [tripId], references: [id])
+}
+
+model Itinerary {
+  id               Int      @id @default(autoincrement())
+  tripId           Int
+  startDate        DateTime
+  endDate          DateTime
+  itineraryOwnerId Int
+
+  itineraryDetails ItineraryDetail[]
+  itineraryOwner   User              @relation(fields: [itineraryOwnerId], references: [id])
+}
+
+model ItineraryDetail {
+  id          Int      @id @default(autoincrement())
+  date        DateTime
+  itineraryId Int
+
+  itineraryItems ItineraryItem[]
+  itineraryItem  Itinerary       @relation(fields: [itineraryId], references: [id])
+}
+
+model ItineraryItem {
+  id                Int    @id @default(autoincrement())
+  startHour         String
+  endHour           String
+  detailName        String
+  itineraryDetailId Int
+
+  itineraryDetail ItineraryDetail @relation(fields: [itineraryDetailId], references: [id])
 }

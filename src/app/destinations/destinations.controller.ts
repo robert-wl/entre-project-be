@@ -5,6 +5,8 @@ import { CreateDestinationResponseDTO } from "./dto/create-destination-response.
 import { CreateDestinationRequestDto } from "./dto/create-destination-request.dto";
 import { AuthGuard } from "../auth/auth.guard";
 import { GetDestinationsFromTripResponseDTO } from "./dto/get-destinations-from-trip-response.dto";
+import { Sender } from "src/decorators/sender.decorator";
+import { User } from "@prisma/client";
 
 @Controller("destinations")
 export class DestinationsController {
@@ -13,14 +15,9 @@ export class DestinationsController {
   @Post("/")
   @UseGuards(AuthGuard)
   @UseInterceptors(new ResponseValidationInterceptor(CreateDestinationResponseDTO))
-  async createDestination(@Body() dto: CreateDestinationRequestDto) {
-    try {
-      const result = await this.destinationsService.createDestination(dto.destination, dto.notes, dto.image, dto.tripId);
-      return { result };
-    } catch (error) {
-      console.error("Error creating destination:", error);
-      throw new Error("Could not create destination");
-    }
+  async createDestination(@Sender() sender: User, @Body() dto: CreateDestinationRequestDto) {
+    const result = await this.destinationsService.createDestination(dto.destination, dto.notes, dto.image, dto.tripId, sender.id);
+    return { result };
   }
 
   @Get("/trip/:tripId")

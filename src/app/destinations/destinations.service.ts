@@ -6,13 +6,21 @@ import { Destination } from "@prisma/client";
 export class DestinationsService {
   constructor(private prisma: PrismaService) {}
 
-  async createDestination(destination: string, notes: string, image: string, tripId: number): Promise<Destination> {
+  async createDestination(destination: string, notes: string, image: string, tripId: number, ownerId: number): Promise<Destination> {
     return this.prisma.destination.create({
       data: {
         destination,
         notes,
         image,
         tripId,
+        destinationOwnerId: ownerId,
+      },
+      include: {
+        destinationOwner: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
   }
