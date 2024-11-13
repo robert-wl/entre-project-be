@@ -35,4 +35,12 @@ export class ItinerariesService {
       },
     });
   }
+
+  async getItinerariesFromTrip(tripId: number) {
+    return this.prisma.itinerary.findMany({
+      where: {
+        tripId,
+      },
+    });
+  }
 }

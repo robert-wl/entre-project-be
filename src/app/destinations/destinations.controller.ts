@@ -7,6 +7,8 @@ import { AuthGuard } from "../auth/auth.guard";
 import { GetDestinationsFromTripResponseDTO } from "./dto/get-destinations-from-trip-response.dto";
 import { Sender } from "src/decorators/sender.decorator";
 import { User } from "@prisma/client";
+import { DeleteDestinationRequestDTO } from "./dto/delete-destination-request.dto";
+import { DeleteDestinationResponseDTO } from "./dto/delete-destination-response.dto";
 
 @Controller("destinations")
 export class DestinationsController {
@@ -20,13 +22,20 @@ export class DestinationsController {
     return { result };
   }
 
+  @Post("/delete")
+  @UseGuards(AuthGuard)
+  @UseInterceptors(new ResponseValidationInterceptor(DeleteDestinationResponseDTO))
+  async deleteDestination(@Body() dto: DeleteDestinationRequestDTO) {
+    const result = await this.destinationsService.deleteDestination(dto.destinationId);
+    return { result };
+  }
+
   @Get("/trip/:tripId")
   @UseGuards(AuthGuard)
   @UseInterceptors(new ResponseValidationInterceptor(GetDestinationsFromTripResponseDTO))
   async getBillsFromTrip(@Param("tripId") tripId: string) {
     const result = await this.destinationsService.getDestinationsFromTrip(+tripId);
-    return {
-      result: result,
-    };
+    return { result };
   }
+
 }

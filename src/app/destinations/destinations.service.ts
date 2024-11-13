@@ -32,4 +32,12 @@ export class DestinationsService {
       },
     });
   }
+
+  async deleteDestination(destinationId: number): Promise<Destination> {
+    return this.prisma.destination.delete({
+      where: {
+        id: destinationId,
+      },
+    });
+  }
 }
