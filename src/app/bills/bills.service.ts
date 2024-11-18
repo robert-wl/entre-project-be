@@ -68,6 +68,17 @@ export class BillsService {
     });
   }
 
+  async getBillDetailWithUser(tripId: number, userId: number): Promise<BillDetail[]> {
+    return this.prisma.billDetail.findMany({
+      where: {
+        bill: {
+          tripId,
+        },
+        userId,
+      },
+    });
+  }
+
   async confirmBillPayment(billDetailId: number) {
     return this.prisma.billDetail.update({
       where: {

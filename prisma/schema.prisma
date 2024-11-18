@@ -27,6 +27,7 @@ model User {
   billDetail    BillDetail[]
   destination   Destination[]
   itinerary     Itinerary[]
+  AlbumDetail   AlbumDetail[]
 }
 
 model Trip {
@@ -128,4 +129,22 @@ model ItineraryItem {
   itineraryDetailId Int
 
   itineraryDetail ItineraryDetail @relation(fields: [itineraryDetailId], references: [id])
+}
+
+model Album {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  albumDetail AlbumDetail[]
+}
+
+model AlbumDetail {
+  id      Int    @id @default(autoincrement())
+  name    String
+  albumId Int
+  userId  Int
+  photo   Bytes  @db.LongBlob()
+
+  user  User  @relation(fields: [userId], references: [id])
+  album Album @relation(fields: [albumId], references: [id])
 }
