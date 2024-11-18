@@ -35,7 +35,7 @@ export class AlbumsController {
   @Get("/:id/details")
   @UseGuards(AuthGuard)
   @UseInterceptors(new ResponseValidationInterceptor(GetAlbumDetailsResponseDTO))
-  async getAlbumDetails(@Param("tripId") id: string) {
+  async getAlbumDetails(@Param("id") id: string) {
     const result = await this.albumService.getAlbumDetails(+id);
     return { result };
   }
