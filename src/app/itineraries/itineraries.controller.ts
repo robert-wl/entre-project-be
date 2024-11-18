@@ -4,6 +4,7 @@ import { AuthGuard } from "../auth/auth.guard";
 import { CreateItineraryRequestDto } from "./dto/create-itinerary-request.dto";
 import { Sender } from "src/decorators/sender.decorator";
 import { User } from "@prisma/client";
+import { start } from "repl";
 
 @Controller("itineraries")
 export class ItinerariesController {
@@ -32,17 +33,11 @@ export class ItinerariesController {
   }
 
   @Get("/trip/:tripId")
-  async getItinerariesFromTrip(@Param("tripId") tripId: string) {
-    const itineraries = await this.itineraryService.getItinerariesFromTrip(+tripId);
-
-    const result = itineraries.map((itinerary) => ({
-      ...itinerary,
-      startDate: itinerary.startDate.toISOString().split("T")[0],
-      endDate: itinerary.endDate.toISOString().split("T")[0],
-    }));
+  async getItineraryFromTrip(@Param("tripId") tripId: string) {
+    const itinerary = await this.itineraryService.getItineraryFromTrip(+tripId);
 
     return {
-      result,
+      result: itinerary,
     };
   }
 }
