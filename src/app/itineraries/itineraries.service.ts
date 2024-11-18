@@ -36,11 +36,18 @@ export class ItinerariesService {
     });
   }
 
-  async getItinerariesFromTrip(tripId: number) {
-    return this.prisma.itinerary.findMany({
+  async getItineraryFromTrip(tripId: number) {
+    return this.prisma.itinerary.findFirst({
       where: {
         tripId,
       },
+      include: {
+        itineraryDetails: {
+          include: {
+            itineraryItems: true,
+          },
+        }
+      }
     });
   }
 }
