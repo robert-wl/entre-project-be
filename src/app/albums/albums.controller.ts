@@ -19,7 +19,7 @@ export class AlbumsController {
   @Get("/")
   @UseGuards(AuthGuard)
   @UseInterceptors(new ResponseValidationInterceptor(GetAlbumsResponseDTO))
-  async getAlbums(@Query() tripId: string) {
+  async getAlbums(@Query('tripId') tripId: string) {
     const result = await this.albumService.getAlbums(+tripId);
     return { result };
   }
@@ -35,8 +35,8 @@ export class AlbumsController {
   @Get("/:id/details")
   @UseGuards(AuthGuard)
   @UseInterceptors(new ResponseValidationInterceptor(GetAlbumDetailsResponseDTO))
-  async getAlbumDetails(@Param("id") id: string) {
-    const result = await this.albumService.getAlbumDetails(+id);
+  async getAlbumWithDetails(@Param("id") id: string) {
+    const result = await this.albumService.getAlbumWithDetails(+id);
     return { result };
   }
 

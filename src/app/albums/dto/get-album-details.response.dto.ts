@@ -1,7 +1,7 @@
 import { IsNotEmpty } from "class-validator";
-import { AlbumDetail } from "@prisma/client";
+import { Album } from "@prisma/client";
 
 export class GetAlbumDetailsResponseDTO {
   @IsNotEmpty()
-  result: AlbumDetail[];
+  result: Album;
 }

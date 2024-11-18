@@ -17,12 +17,15 @@ export class AlbumsService {
     });
   }
 
-  async getAlbumDetails(albumId: number): Promise<AlbumDetail[]> {
-    return this.prisma.albumDetail.findMany({
+  async getAlbumWithDetails(albumId: number): Promise<Album> {
+    return this.prisma.album.findFirst({
       where: {
-        albumId,
+        id: albumId
       },
-    });
+      include: {
+        albumDetail: true
+      }
+    })
   }
 
   async createAlbum(name: string, tripId: number): Promise<Album> {
