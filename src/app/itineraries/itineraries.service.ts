@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { ItineraryItem } from "@prisma/client";
 import { PrismaService } from "src/prisma/prisma.service";
 
 @Injectable()
@@ -46,8 +47,37 @@ export class ItinerariesService {
           include: {
             itineraryItems: true,
           },
-        }
-      }
+        },
+      },
     });
+  }
+
+  async editItineraryDetail(
+    itineraryDetailId: number,
+    itineraryItems: {
+      id?: number;
+      startHour: string;
+      endHour: string;
+      detailName: string;
+    }[],
+  ) {
+    const upsertPromises = itineraryItems.map((item) =>
+      this.prisma.itineraryItem.upsert({
+        where: { id: item.id || -1 },
+        update: {
+          startHour: item.startHour,
+          endHour: item.endHour,
+          detailName: item.detailName,
+        },
+        create: {
+          startHour: item.startHour,
+          endHour: item.endHour,
+          detailName: item.detailName,
+          itineraryDetailId,
+        },
+      }),
+    );
+
+    return Promise.all(upsertPromises);
   }
 }

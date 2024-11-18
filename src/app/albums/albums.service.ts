@@ -63,7 +63,6 @@ export class AlbumsService {
   }
 }
 
-
 // model AlbumDetail {
 //   id      Int    @id @default(autoincrement())
 //   name    String

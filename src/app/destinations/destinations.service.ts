@@ -4,7 +4,7 @@ import { Destination } from "@prisma/client";
 
 @Injectable()
 export class DestinationsService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   async createDestination(destination: string, notes: string, image: string, tripId: number, ownerId: number): Promise<Destination> {
     return this.prisma.destination.create({
@@ -44,8 +44,8 @@ export class DestinationsService {
   async getDestination(destinationId: number): Promise<Destination> {
     return this.prisma.destination.findFirst({
       where: {
-        id: destinationId
-      }
+        id: destinationId,
+      },
     });
   }
 
@@ -57,8 +57,8 @@ export class DestinationsService {
       data: {
         destination: destination,
         notes: notes,
-        image: image
-      }
-    })
+        image: image,
+      },
+    });
   }
 }

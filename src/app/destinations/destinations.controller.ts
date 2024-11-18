@@ -15,7 +15,7 @@ import { EditDestinationRequestDTO } from "./dto/edit-destination-request.dto";
 
 @Controller("destinations")
 export class DestinationsController {
-  constructor(private destinationsService: DestinationsService) { }
+  constructor(private destinationsService: DestinationsService) {}
 
   @Post("/")
   @UseGuards(AuthGuard)
@@ -60,6 +60,4 @@ export class DestinationsController {
     const result = await this.destinationsService.editDestination(dto.destinationId, dto.destination, dto.image, dto.notes);
     return { result };
   }
-
-
 }

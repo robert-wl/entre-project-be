@@ -1,10 +1,12 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, UseGuards, UseInterceptors } from "@nestjs/common";
 import { ItinerariesService } from "./itineraries.service";
 import { AuthGuard } from "../auth/auth.guard";
 import { CreateItineraryRequestDto } from "./dto/create-itinerary-request.dto";
 import { Sender } from "src/decorators/sender.decorator";
 import { User } from "@prisma/client";
-import { start } from "repl";
+import { EditItineraryDetailRequestDto } from "./dto/edit-itinerary-detail-request.dto";
+import { ResponseValidationInterceptor } from "src/interceptors/response-validation.interceptor";
+import { CreateItineraryResponseDTO } from "./dto/create-itinerary-response.dto";
 
 @Controller("itineraries")
 export class ItinerariesController {
@@ -12,6 +14,7 @@ export class ItinerariesController {
 
   @Post("/")
   @UseGuards(AuthGuard)
+  @UseInterceptors(new ResponseValidationInterceptor(CreateItineraryResponseDTO))
   async createItinerary(@Sender() sender: User, @Body() dto: CreateItineraryRequestDto) {
     const result = await this.itineraryService.createItinerary(dto.startDate, dto.endDate, dto.tripId, sender.id);
 
@@ -33,11 +36,21 @@ export class ItinerariesController {
   }
 
   @Get("/trip/:tripId")
+  @UseGuards(AuthGuard)
   async getItineraryFromTrip(@Param("tripId") tripId: string) {
     const itinerary = await this.itineraryService.getItineraryFromTrip(+tripId);
 
     return {
       result: itinerary,
+    };
+  }
+
+  @Post("/edit")
+  async editItineraryDetail(@Body() dto: EditItineraryDetailRequestDto) {
+    await this.itineraryService.editItineraryDetail(dto.id, dto.itineraryItems);
+
+    return {
+      result: "success",
     };
   }
 }
