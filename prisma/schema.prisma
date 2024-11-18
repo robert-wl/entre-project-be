@@ -97,7 +97,7 @@ model TripDetail {
   location    String
   description String
   price       Float
-  photo       Bytes    @db.LongBlob()
+  image       String   @db.LongText
 
   trip Trip @relation(fields: [tripId], references: [id])
 }
@@ -146,7 +146,7 @@ model AlbumDetail {
   name    String
   albumId Int
   userId  Int
-  photo   Bytes  @db.LongBlob()
+  image   String @db.LongText
 
   user  User  @relation(fields: [userId], references: [id])
   album Album @relation(fields: [albumId], references: [id])
