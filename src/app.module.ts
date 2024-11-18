@@ -8,10 +8,12 @@ import { TripsModule } from "./app/trips/trips.module";
 import { BillsModule } from "./app/bills/bills.module";
 import { DestinationsModule } from "./app/destinations/destinations.module";
 import { ItinerariesModule } from "./app/itineraries/itineraries.module";
+import { AlbumsController } from "./app/albums/albums.controller";
+import { AlbumsModule } from "./app/albums/albums.module";
 
 @Module({
-  imports: [AuthModule, UsersModule, PrismaModule, TripsModule, BillsModule, DestinationsModule, ItinerariesModule],
-  controllers: [AppController],
+  imports: [AuthModule, UsersModule, PrismaModule, TripsModule, BillsModule, DestinationsModule, ItinerariesModule, AlbumsModule],
+  controllers: [AppController, AlbumsController],
   providers: [AppService],
 })
 export class AppModule {}
