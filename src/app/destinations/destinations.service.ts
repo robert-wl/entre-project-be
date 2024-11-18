@@ -1,17 +1,22 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../../prisma/prisma.service";
 import { Destination } from "@prisma/client";
+import { ImagesService } from "../images/images.service";
 
 @Injectable()
 export class DestinationsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private imagesService: ImagesService,
+  ) {}
 
   async createDestination(destination: string, notes: string, image: string, tripId: number, ownerId: number): Promise<Destination> {
+    const imageUrl = await this.imagesService.saveImage(image);
     return this.prisma.destination.create({
       data: {
         destination,
         notes,
-        image,
+        imageUrl,
         tripId,
         destinationOwnerId: ownerId,
       },
@@ -50,6 +55,7 @@ export class DestinationsService {
   }
 
   async editDestination(destinationId: number, destination: string, image: string, notes: string): Promise<Destination> {
+    const imageUrl = await this.imagesService.saveImage(image);
     return this.prisma.destination.update({
       where: {
         id: destinationId,
@@ -57,7 +63,7 @@ export class DestinationsService {
       data: {
         destination: destination,
         notes: notes,
-        image: image,
+        imageUrl,
       },
     });
   }
