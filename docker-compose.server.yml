@@ -4,7 +4,7 @@ services:
     tty: true
     build: .
     ports:
-      - "3900:3900"
+      - "3910:3900"
     restart: on-failure
     depends_on:
       - mysql
@@ -22,7 +22,7 @@ services:
       - MYSQL_TCP_PORT=${DATABASE_PORT}
     restart: on-failure
     ports:
-      - "3306:3306"
+      - "3316:3306"
     networks:
       - splanngo
     volumes:
