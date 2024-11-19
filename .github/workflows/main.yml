@@ -27,6 +27,7 @@ jobs:
           --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} \
           --build-arg JWT_SECRET=${{ secrets.JWT_SECRET }} \
           --build-arg PORT=${{ secrets.PORT }}
+          --build-arg BACKEND_BASE_URL=${{ secrets.BACKEND_BASE_URL }}
 
       - name: Push docker image
         run: |
