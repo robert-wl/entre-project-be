@@ -5,6 +5,12 @@ export class EditItineraryDetailRequestDto {
   id: number;
 
   @IsNotEmpty()
+  itineraryDetails: ItineraryDetail[];
+}
+
+class ItineraryDetail {
+  id: number;
+  date: string;
   itineraryItems: ItineraryItem[];
 }
 

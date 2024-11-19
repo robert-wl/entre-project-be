@@ -11,7 +11,7 @@ import { InviteTripMemberRequestDto } from "./dto/invite-trip-request.dto";
 
 @Controller("trips")
 export class TripsController {
-  constructor(private tripsService: TripsService) { }
+  constructor(private tripsService: TripsService) {}
 
   @Post("/createTrip")
   @UseGuards(AuthGuard)
@@ -51,6 +51,5 @@ export class TripsController {
     const emails = dto.emails.split(",").map((email) => email.trim());
 
     await Promise.all(emails.map((email) => this.tripsService.inviteTripMemberByEmail(dto.tripId, email)));
-
   }
 }

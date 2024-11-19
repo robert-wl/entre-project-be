@@ -47,15 +47,15 @@ export class ItinerariesService {
           include: {
             itineraryItems: {
               orderBy: {
-                startHour: "asc"
-              }
+                startHour: "asc",
+              },
             },
           },
           orderBy: {
-            date: "asc"
-          }
+            date: "asc",
+          },
         },
-      }
+      },
     });
   }
 
