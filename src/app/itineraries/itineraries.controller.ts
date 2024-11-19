@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, UseGuards, UseInterceptors } from "@nestjs/common";
 import { ItinerariesService } from "./itineraries.service";
 import { AuthGuard } from "../auth/auth.guard";
 import { CreateItineraryRequestDto } from "./dto/create-itinerary-request.dto";
@@ -46,11 +46,18 @@ export class ItinerariesController {
   }
 
   @Post("/edit")
+  @UseGuards(AuthGuard)
   async editItineraryDetail(@Body() dto: EditItineraryDetailRequestDto) {
     await Promise.all(
       dto.itineraryDetails.map(async (detail) => {
         await this.itineraryService.editItineraryDetail(detail.id, detail.itineraryItems);
       }),
     );
+  }
+
+  @Delete('/:itineraryId')
+  @UseGuards(AuthGuard)
+  async deleteItinerary(@Param('itineraryId') itineraryId: string) {
+    await this.itineraryService.deleteItinerary(+itineraryId);
   }
 }

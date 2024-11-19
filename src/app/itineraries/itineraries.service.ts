@@ -87,4 +87,12 @@ export class ItinerariesService {
 
     return Promise.all(upsertPromises);
   }
+
+  async deleteItinerary(itineraryId: number) {
+    return this.prisma.itinerary.delete({
+      where: {
+        id: itineraryId
+      }
+    })
+  }
 }
