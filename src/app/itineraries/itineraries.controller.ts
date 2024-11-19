@@ -47,10 +47,10 @@ export class ItinerariesController {
 
   @Post("/edit")
   async editItineraryDetail(@Body() dto: EditItineraryDetailRequestDto) {
-    await this.itineraryService.editItineraryDetail(dto.id, dto.itineraryItems);
-
-    return {
-      result: "success",
-    };
+    await Promise.all(
+      dto.itineraryDetails.map(async (detail) => {
+        await this.itineraryService.editItineraryDetail(detail.id, detail.itineraryItems);
+      }),
+    );
   }
 }
