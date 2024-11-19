@@ -5,7 +5,7 @@ services:
     build: .
     ports:
       - "3900:3900"
-    restart: on-failure
+    restart: always
     depends_on:
       - mysql
     networks:
@@ -20,9 +20,7 @@ services:
       - MYSQL_PASSWORD=${DATABASE_PASSWORD}
       - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD}
       - MYSQL_TCP_PORT=${DATABASE_PORT}
-    restart: on-failure
-    ports:
-      - "3306:3306"
+    restart: always
     networks:
       - splanngo
     volumes:
