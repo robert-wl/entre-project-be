@@ -4,8 +4,8 @@ services:
     tty: true
     build: .
     ports:
-      - "3900:3900"
-    restart: always
+      - "3910:3900"
+    restart: on-failure
     depends_on:
       - mysql
     networks:
@@ -29,7 +29,6 @@ services:
 networks:
   splanngo:
     driver: bridge
-
 
 volumes:
   mysql-data:

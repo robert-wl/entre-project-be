@@ -9,7 +9,6 @@ import { CreateBillResponseDTO } from "./dto/create-bill-response.dto";
 import { GetBillsFromTripResponseDTO } from "./dto/get-bills-from-trip-response.dto";
 import { GetCompleteBillResponseDTO } from "./dto/get-complete-bill-response.dto";
 import { ConfirmBillResponseDTO } from "./dto/confirm-bill-response.dto";
-import { ConfirmBillRequestDTO } from "./dto/confirm-bill-request.dto";
 
 @Controller("bills")
 export class BillsController {
